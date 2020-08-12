@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Census Model</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background: white;
+      }
+      #console {
+        position: absolute; top: 5px; right: 15px;
+        z-index: 100; width: 460px; height: 80%;
+        overflow: scroll;
+
+      }
+      .close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 5px; right: 17px;
+        background: black;
+        z-index: 110;
+        color: #aaa;
+        cursor: pointer;
+        padding: 3px;
+        border-radius: 3px;
+        text-align: center;
+      }
+      .shell-wrap {
+        position: relative;
+        width: 100%; 
+        max-height: 100%;
+        margin: auto auto 0 auto;
+        box-shadow: 0 0 30px rgba(0,0,0,0.4);
+       
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+      }
+       
+      .shell-body {
+        margin: 0;
+        padding: 5px;
+        list-style: none;
+        background: #141414;
+        min-height: 30px;
+        color: #45D40C;
+        font: 0.8em 'Andale Mono', Consolas, 'Courier New';
+        line-height: 1.6em;
+        height: auto;
+         /*position: absolute; bottom: 0;*/
+        -webkit-border-bottom-right-radius: 3px;
+        -webkit-border-bottom-left-radius: 3px;
+        -moz-border-radius-bottomright: 3px;
+        -moz-border-radius-bottomleft: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+       
+      .shell-body li:before {
+        content: '$';
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+       
+      .shell-body li {
+        word-wrap: break-word;
+        position: relative;
+        padding: 0 0 0 15px;
+      }
+      .bad{ color: red; } 
+      .good{ color: yellow; } 
+      .status{ color: white; } 
+      .button{ color: steelblue; cursor: pointer; } 
+
+      #my-gui-container {
+        position: absolute; z-index: 100;left: 40px; bottom: 60px; 
+        /*position: absolute; top: 10px; left: 40px; z-index: 100; width: auto; height: 400px;*/
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body>
+<div id="my-gui-container"></div>
+<div class="close">[-]</div>
+    <div id="console">
+<div class="shell-wrap">
+  <ul class="shell-body">
+  </ul>
+</div>
+    </div>
+    <div id="map"></div>
+
+    <!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+
+    <script>
+
+        var table_columns = {
+          'populated_places': 'sum(pop_max)', 'altfuelstationsapr42012': 'sum(1)','bigfoot_reports': 'sum(1)'
+        }
+        var tables = Object.keys(table_columns);
+        var table = tables[0];
+        var themes = [
+          ["#330800","#661000", "#991700", "#cc1f00", "#ff2700", "#ff5233", "#ff7d66", "#ffa999", "#ffd4cc"],
+          ["#ffd4cc", "#ffa999", "#ff7d66", "#ff5233", "#ff2700", "#cc1f00", "#991700", "#661000", "#330800"]
+        ];
+
+        var colkeys = {'Population Total': 'DP0010001', 'Population Under 5 years': 'DP0010002', 'Population 5 to 9 years': 'DP0010003', 'Population 10 to 14 years': 'DP0010004', 'Population 15 to 19 years': 'DP0010005', 'Population 20 to 24 years': 'DP0010006', 'Population 25 to 29 years': 'DP0010007', 'Population 30 to 34 years': 'DP0010008', 'Population 35 to 39 years': 'DP0010009', 'Population 40 to 44 years': 'DP0010010', 'Population 45 to 49 years': 'DP0010011', 'Population 50 to 54 years': 'DP0010012', 'Population 55 to 59 years': 'DP0010013', 'Population 60 to 64 years': 'DP0010014', 'Population 65 to 69 years': 'DP0010015', 'Population 70 to 74 years': 'DP0010016', 'Population 75 to 79 years': 'DP0010017', 'Population 80 to 84 years': 'DP0010018', 'Population 85 years and over': 'DP0010019', 'Male population Male': 'DP0010020', 'Male population Under 5 years': 'DP0010021', 'Male population 5 to 9 years': 'DP0010022', 'Male population 10 to 14 years': 'DP0010023', 'Male population 15 to 19 years': 'DP0010024', 'Male population 20 to 24 years': 'DP0010025', 'Male population 25 to 29 years': 'DP0010026', 'Male population 30 to 34 years': 'DP0010027', 'Male population 35 to 39 years': 'DP0010028', 'Male population 40 to 44 years': 'DP0010029', 'Male population 45 to 49 years': 'DP0010030', 'Male population 50 to 54 years': 'DP0010031', 'Male population 55 to 59 years': 'DP0010032', 'Male population 60 to 64 years': 'DP0010033', 'Male population 65 to 69 years': 'DP0010034', 'Male population 70 to 74 years': 'DP0010035', 'Male population 75 to 79 years': 'DP0010036', 'Male population 80 to 84 years': 'DP0010037', 'Male population 85 years and over': 'DP0010038', 'Female population Female': 'DP0010039', 'Female population Under 5 years': 'DP0010040', 'Female population 5 to 9 years': 'DP0010041', 'Female population 10 to 14 years': 'DP0010042', 'Female population 15 to 19 years': 'DP0010043', 'Female population 20 to 24 years': 'DP0010044', 'Female population 25 to 29 years': 'DP0010045', 'Female population 30 to 34 years': 'DP0010046', 'Female population 35 to 39 years': 'DP0010047', 'Female population 40 to 44 years': 'DP0010048', 'Female population 45 to 49 years': 'DP0010049', 'Female population 50 to 54 years': 'DP0010050', 'Female population 55 to 59 years': 'DP0010051', 'Female population 60 to 64 years': 'DP0010052', 'Female population 65 to 69 years': 'DP0010053', 'Female population 70 to 74 years': 'DP0010054', 'Female population 75 to 79 years': 'DP0010055', 'Female population 80 to 84 years': 'DP0010056', 'Female population 85 years and over': 'DP0010057',     'Media age Both sexes': 'DP0020001', 'Media age Male': 'DP0020002', 'Media age Female': 'DP0020003',    'Over 16 Total': 'DP0030001', 'Over 16 Male': 'DP0030002', 'Over 16 Female': 'DP0030003',    'Over 18 Total': 'DP0040001', 'Over 18 Male': 'DP0040002', 'Over 18 Female': 'DP0040003',    'Over 21 Total': 'DP0050001', 'Over 21 Male': 'DP0050002', 'Over 21 Female': 'DP0050003',    'Over 62 Total': 'DP0060001', 'Over 62 Male': 'DP0060002', 'Over 62 Female': 'DP0060003',    'Over 65 Total': 'DP0070001', 'Over 65 Male': 'DP0070002', 'Over 65 Female': 'DP0070003',    'Total population Total': 'DP0080001', 'Total Population of one race': 'DP0080002', 'Total population White': 'DP0080003', 'Total population Black or African American': 'DP0080004', 'Total population American Indian and Alaska Native': 'DP0080005', 'Total population Asian': 'DP0080006', 'Total population Asian Indian': 'DP0080007', 'Total population Chinese': 'DP0080008', 'Total population Filipino': 'DP0080009', 'Total population Japanese': 'DP0080010', 'Total population Korean': 'DP0080011', 'Total population Vietnamese': 'DP0080012', 'Total population Other Asian': 'DP0080013', 'Total population Native Hawaiian and Other Pacific Islander': 'DP0080014', 'Total population Native Hawaiian': 'DP0080015', 'Total population Guamanian or Chamorro': 'DP0080016', 'Total population Samoan': 'DP0080017', 'Total population Other Pacific Islander': 'DP0080018', 'Total population Some Other Race': 'DP0080019', 'Total Population of Two or More Races': 'DP0080020', 'Total population White; American Indian and Alaska Native': 'DP0080021', 'Total population White; Asian': 'DP0080022', 'Total population White; Black or African American': 'DP0080023', 'Total population White; Some Other Race': 'DP0080024',    'White alone or in combination with one or more other races': 'DP0090001', 'Black or African American alone or in combination with one or more other races': 'DP0090002', 'American Indian and Alaska Native alone or in combination with one or more other races': 'DP0090003', 'Asian alone or in combination with one or more other races': 'DP0090004', 'Native Hawaiian and Other Pacific Islander alone or in combination with one or more other races': 'DP0090005', 'Some Other Race alone or in combination with one or more other races': 'DP0090006',    'Hispanic Total': ' DP0100001', 'Hispanic or Latino (of any race)': ' DP0100002', 'Mexican': ' DP0100003', 'Puerto Rican': ' DP0100004', 'Cuban': ' DP0100005', 'Other Hispanic or Latino': ' DP0100006', 'Not Hispanic or Latino': ' DP0100007',    'Hispanic Total': ' DP0110001', 'Hispanic or Latino': ' DP0110002', 'White alone': ' DP0110003', 'Black or African American alone': ' DP0110004', 'American Indian and Alaska Native alone': ' DP0110005', 'Asian alone': ' DP0110006', 'Native Hawaiian and Other Pacific Islander alone': ' DP0110007', 'Some Other Race alone': ' DP0110008', 'Two or More Races': ' DP0110009', 'Not Hispanic or Latino': ' DP0110010', 'White alone': ' DP0110011', 'Black or African American alone': ' DP0110012', 'American Indian and Alaska Native alone': ' DP0110013', 'Asian alone': ' DP0110014', 'Native Hawaiian and Other Pacific Islander alone': ' DP0110015', 'Some Other Race alone': ' DP0110016', 'Two or More Races': ' DP0110017',    'Relationship Total': ' DP0120001', 'Relationship In households': ' DP0120002', 'In households Householder': ' DP0120003', 'In households Spouse': ' DP0120004', 'In households Child': ' DP0120005', 'In households Own child under 18 years': ' DP0120006', 'Relationship Other relatives': ' DP0120007', 'Other relatives Under 18 years': ' DP0120008', 'Other relatives 65 years and over': ' DP0120009', 'Relationship Nonrelatives': ' DP0120010', 'Nonrelatives Under 18 years': ' DP0120011', 'Nonrelatives 65 years and over': ' DP0120012', 'Nonrelatives Unmarried partner': ' DP0120013', 'Relationship In group quarters': ' DP0120014', 'In group quarters Institutionalized population': ' DP0120015', 'In group quarters Male': ' DP0120016', 'In group quarters Female': ' DP0120017', 'Relationship Noninstitutionalized population': ' DP0120018', 'Noninstitutionalized population Male': ' DP0120019', 'Noninstitutionalized population Female': ' DP0120020',    'Households Total': ' DP0130001', 'Family households (families)': ' DP0130002', 'Households With own children under 18 years': ' DP0130003', 'Households Husband-wife family': ' DP0130004', 'Households With own children under 18 years': ' DP0130005', 'Households Male householder, no wife present': ' DP0130006', 'Households With own children under 18 years': ' DP0130007', 'Households Female householder, no husband present': ' DP0130008', 'Households With own children under 18 years': ' DP0130009', 'Households Nonfamily households': ' DP0130010', 'Households Householder living alone': ' DP0130011', 'Households alone Male': ' DP0130012', 'Households alone male 65 years and over': ' DP0130013', 'Households alone Female': ' DP0130014', 'Households alone female 65 years and over': ' DP0130015',    'Households with indiv under 18 Total': 'DP0140001',    'Households with indiv 65 and over Total': 'DP0150001',    'Average household size': 'DP0160001',    'Average family size': 'DP0170001',    'Occupancy Total': 'DP0180001', 'Occupied housing units': 'DP0180002', 'Vacant housing units': 'DP0180003', 'Vacant units For rent': 'DP0180004', 'Vacant units Rented, not occupied': 'DP0180005', 'Vacant units For sale only': 'DP0180006', 'Vacant units Sold, not occupied': 'DP0180007', 'Vacant units For seasonal, recreational, or occasional use': 'DP0180008', 'Vacant units All other vacants': 'DP0180009',    'Homeowner vacancy rate (percent)': 'DP0190001',    'Rental vacancy rate (percent)': 'DP0200001',    'Total': 'DP0210001', 'Owner-occupied housing units': 'DP0210002', 'Renter-occupied housing units': 'DP0210003',    'Owner-occupied housing units': 'DP0220001', 'Renter-occupied housing units': 'DP0220002',     'Owner occupied': 'DP0230001', 'Renter occupied': 'DP0230002'};
+
+        var initcolvals = ["Population Total", "Population Under 5 years", "Population 5 to 9 years", "Population 10 to 14 years", "Population 15 to 19 years", "Population 20 to 24 years", "Population 25 to 29 years", "Population 30 to 34 years", "Population 35 to 39 years", "Population 40 to 44 years", "Population 45 to 49 years", "Population 50 to 54 years", "Population 55 to 59 years", "Population 60 to 64 years", "Population 65 to 69 years", "Population 70 to 74 years", "Population 75 to 79 years", "Population 80 to 84 years", "Population 85 years and over", "Male population Male", "Male population Under 5 years", "Male population 5 to 9 years", "Male population 10 to 14 years", "Male population 15 to 19 years", "Male population 20 to 24 years", "Male population 25 to 29 years", "Male population 30 to 34 years", "Male population 35 to 39 years", "Male population 40 to 44 years", "Male population 45 to 49 years", "Male population 50 to 54 years", "Male population 55 to 59 years", "Male population 60 to 64 years", "Male population 65 to 69 years", "Male population 70 to 74 years", "Male population 75 to 79 years", "Male population 80 to 84 years", "Male population 85 years and over", "Female population Female", "Female population Under 5 years", "Female population 5 to 9 years", "Female population 10 to 14 years", "Female population 15 to 19 years", "Female population 20 to 24 years", "Female population 25 to 29 years", "Female population 30 to 34 years", "Female population 35 to 39 years", "Female population 40 to 44 years", "Female population 45 to 49 years", "Female population 50 to 54 years", "Female population 55 to 59 years", "Female population 60 to 64 years", "Female population 65 to 69 years", "Female population 70 to 74 years", "Female population 75 to 79 years", "Female population 80 to 84 years", "Female population 85 years and over", "Media age Both sexes", "Media age Male", "Media age Female", "Over 16 Total", "Over 16 Male", "Over 16 Female", "Over 18 Total", "Over 18 Male", "Over 18 Female", "Over 21 Total", "Over 21 Male", "Over 21 Female", "Over 62 Total", "Over 62 Male", "Over 62 Female", "Over 65 Total", "Over 65 Male", "Over 65 Female", "Total population Total", "Total Population of one race", "Total population White", "Total population Black or African American", "Total population American Indian and Alaska Native", "Total population Asian", "Total population Asian Indian", "Total population Chinese", "Total population Filipino", "Total population Japanese", "Total population Korean", "Total population Vietnamese", "Total population Other Asian", "Total population Native Hawaiian and Other Pacific Islander", "Total population Native Hawaiian", "Total population Guamanian or Chamorro", "Total population Samoan", "Total population Other Pacific Islander", "Total population Some Other Race", "Total Population of Two or More Races", "Total population White; American Indian and Alaska Native", "Total population White; Asian", "Total population White; Black or African American", "Total population White; Some Other Race", "White alone or in combination with one or more other races", "Black or African American alone or in combination with one or more other races", "American Indian and Alaska Native alone or in combination with one or more other races", "Asian alone or in combination with one or more other races", "Native Hawaiian and Other Pacific Islander alone or in combination with one or more other races", "Some Other Race alone or in combination with one or more other races", "Hispanic Total", "Hispanic or Latino (of any race)", "Mexican", "Puerto Rican", "Cuban", "Other Hispanic or Latino", "Not Hispanic or Latino", "Hispanic Total", "Hispanic or Latino", "White alone", "Black or African American alone", "American Indian and Alaska Native alone", "Asian alone", "Native Hawaiian and Other Pacific Islander alone", "Some Other Race alone", "Two or More Races", "Not Hispanic or Latino", "White alone", "Black or African American alone", "American Indian and Alaska Native alone", "Asian alone", "Native Hawaiian and Other Pacific Islander alone", "Some Other Race alone", "Two or More Races", "Relationship Total", "Relationship In households", "In households Householder", "In households Spouse", "In households Child", "In households Own child under 18 years", "Relationship Other relatives", "Other relatives Under 18 years", "Other relatives 65 years and over", "Relationship Nonrelatives", "Nonrelatives Under 18 years", "Nonrelatives 65 years and over", "Nonrelatives Unmarried partner", "Relationship In group quarters", "In group quarters Institutionalized population", "In group quarters Male", "In group quarters Female", "Relationship Noninstitutionalized population", "Noninstitutionalized population Male", "Noninstitutionalized population Female", "Households Total", "Family households (families)", "Households With own children under 18 years", "Households Husband-wife family", "Households With own children under 18 years", "Households Male householder, no wife present", "Households With own children under 18 years", "Households Female householder, no husband present", "Households With own children under 18 years", "Households Nonfamily households", "Households Householder living alone", "Households alone Male", "Households alone male 65 years and over", "Households alone Female", "Households alone female 65 years and over", "Households with indiv under 18 Total", "Households with indiv 65 and over Total", "Average household size", "Average family size", "Occupancy Total", "Occupied housing units", "Vacant housing units", "Vacant units For rent", "Vacant units Rented, not occupied", "Vacant units For sale only", "Vacant units Sold, not occupied", "Vacant units For seasonal, recreational, or occasional use", "Vacant units All other vacants", "Homeowner vacancy rate (percent)", "Rental vacancy rate (percent)", "Total", "Owner-occupied housing units", "Renter-occupied housing units", "Owner-occupied housing units", "Renter-occupied housing units", "Owner occupied", "Renter occupied"];
+
+        // short version
+        function initvals() {
+          return ['Population Total', 'Male population Male', 'Female population Female', 'Media age Both sexes', 'Media age Male', 'Media age Female', 'Over 21 Total', 'Over 21 Male', 'Over 21 Female', 'Total population Total', 'Total Population of one race', 'Total population White', 'Total population Black or African American', 'Total population American Indian and Alaska Native', 'Total population Asian', 'Total population Asian Indian', 'Total population Chinese', 'Total population Filipino', 'Total population Japanese', 'Total population Korean', 'Total population Vietnamese', 'Total population Other Asian', 'Total population Native Hawaiian and Other Pacific Islander', 'Total population Native Hawaiian', 'Total population Guamanian or Chamorro', 'Total population Samoan', 'Total population Other Pacific Islander', 'Relationship Total', 'Relationship In households', 'Households Total', 'Family households (families)', 'Households With own children under 18 years', 'Households Husband-wife family', 'Households With own children under 18 years', 'Households Male householder, no wife present', 'Households Householder living alone', 'Households alone Male', 'Households alone male 65 years and over', 'Households alone Female', 'Households alone female 65 years and over', 'Average household size', 'Average family size', 'Occupancy Total', 'Occupied housing units', 'Vacant housing units', 'Vacant units For rent', 'Homeowner vacancy rate (percent)', 'Owner-occupied housing units', 'Renter-occupied housing units'];
+        }
+      var leaders = {};
+
+      function main() {
+        $('.close').click(function(){
+          $('.shell-wrap').toggle();
+          $('#console').toggle();
+          $('#console')[0].scrollTop = $('#console')[0].scrollHeight;
+        })
+        var colvals = initvals();
+
+        var map = L.map('map', {
+          zoomControl: true,
+          center: [40, -90],
+          zoom: 6
+        });
+
+        var runModel = function(key){
+          var col = colkeys[key];
+          var formulaQ = "WITH innerQ AS (SELECT cartodb_id, {0}/(dp0010001+1.0) x, (SELECT {2} FROM {1} a WHERE ST_Intersects(t.the_geom,a.the_geom)) y FROM tract_2010_census_dp t) SELECT regr_slope (y, x) slope, regr_intercept(y, x) incept FROM innerQ".format(col, table, table_columns[table])
+          sql.execute(formulaQ)
+            .done(function(data){
+                var newQ = "SELECT *, ({0}*({1}/(dp0010001+1.0)))+{2} newv FROM tract_2010_census_dp".format(data.rows[0].slope, col.toLowerCase(), data.rows[0].incept);
+
+                sql.execute("WITH a AS ({0}) SELECT min(newv) min, max(newv) max FROM a".format(newQ))
+                  .done(function(data2){
+                    var theme = themes[0];
+                    var init = data2.rows[0].min;
+                    var last = data2.rows[0].max;
+                    var mod = "<="
+
+                    if (data.rows[0].slope < 0) {mod = ">=", last = data2.rows[0].min; init = data2.rows[0].max;}
+                    var steps = theme.length;
+
+                    var css = "#tract_2010_census_dp {polygon-fill: yellow; ";
+                    // for(var i = 0; i< steps-1; i++){
+                    //   css += "[newv>{0}]{polygon-fill:{1};} ".format(init + i*mply, theme[steps-1-i])
+                    // }
+                    for(var i = 0; i< steps; i++){
+                      css += "[newv{2}{0}]{polygon-fill:{1};} ".format(last, theme[i], mod);
+                      last = init + (last - init)/1.5;
+                      if (data.rows[0].slope < 0){
+                        last = init - (init - last)/1.5;
+                      }
+                    }
+                    Layers.getSubLayer(0).set({'cartocss':css + "}", sql: newQ});
+                  });
+              })
+        }
+        var sortCorr = function(){
+          clog("<span class='status'>Analysis complete for "+Object.keys(leaders).length+" variables</span>")
+          var items = Object.keys(leaders).map(function(key) {
+              return [key, Math.abs(leaders[key])];
+          });
+          items.sort(function(first, second) {
+              return  second[1] - first[1];
+          });
+          clog("<span class='status'>Top 10 candidate models:</span>")
+
+          for (var i = 0; i< Math.min(items.length, 10); i++){
+            clog("<span class='run button' value='"+items[i][0]+"'>[run]</span> "+items[i][0] + ": " + "<span class='good'>"+leaders[items[i][0]]+"</span>")
+          }
+          clog("<span class='status'>Running best model: "+items[0][0]+"</span>")
+          runModel(items[0][0]);
+
+          $('.run').click(function(){
+            var key = $(this).attr('value');
+            runModel(key);
+          })
+        }
+        var clog = function(s) {
+            $('.shell-body').append(
+              $('<li></li>').html(s)
+            )
+            $('#console')[0].scrollTop = $('#console')[0].scrollHeight;
+        }
+        var getCorr = function(i, callback){
+          // console.log(i)
+          var testQ =  "WITH innerQ AS (SELECT t.cartodb_id, t.{0} x, {3}/(dp0010001+1.0) y FROM tract_2010_census_dp t, {2} a WHERE ST_Intersects(t.the_geom,a.the_geom) AND dp0010001 > 0 GROUP BY t.cartodb_id) SELECT corr(y, x) corr, '{1}' AS src FROM innerQ WHERE y > 0".format(colkeys[i].toLowerCase(), i, table, table_columns[table]);
+          sql.execute(testQ)
+          .done(function(data){
+            leaders[data.rows[0].src] = data.rows[0].corr;
+            var vcla = 'bad';
+            if (Math.abs(data.rows[0].corr) > 0.25) vcla = 'good';
+            clog(data.rows[0].src + ": " + "<span class='"+vcla+"'>"+data.rows[0].corr+"</span>")
+            if (colvals.length>0){
+              var i = colvals.pop();
+              getCorr(i, callback);
+            }else{
+              callback();
+            }
+          });
+        }
+        var Layers;
+        var sql = new cartodb.SQL({ user: 'andrew' });
+        cartodb.createLayer(map, {
+          user_name: 'andrew',
+          type: 'cartodb',
+          sublayers: [{
+            sql: "SELECT * FROM tract_2010_census_dp",
+            cartocss: '#tract_2010_census_dp {polygon-fill: tomato;}'
+          },{
+            sql: "SELECT * FROM {0}".format(table),
+            cartocss: '#{0} {marker-fill: lightgreen; marker-width: 6;}'.format(table)
+          }]
+        })
+        .addTo(map)
+        .done(function(layers) {
+
+          clog("<span class='status'>Map loaded...</span>")
+          Layers = layers;
+          var i = colvals.pop();
+          clog("<span class='status'>Calculating Pearson's R for "+colvals.length+" parameters</span>")
+          getCorr(i, sortCorr);
+
+ 
+          var MapLayer = function() {
+            this.table = function() { console.log(this.table)};
+          };
+
+          var text = new MapLayer();
+          var gui = new dat.GUI({autoPlace: false});
+          var customContainer = document.getElementById('my-gui-container');
+          customContainer.appendChild(gui.domElement);
+          var controller = gui.add(text, 'table', tables);
+          controller.onChange(function(value) {
+            table = value;
+            layers.getSubLayer(1).setSQL("SELECT * FROM {0}".format(table))
+            clog("<span class='status'>Table set to "+table+"</span>");
+            clog("<span class='status'>Recalculating Pearson's R for "+colvals.length+" parameters</span>")
+            colvals = initvals();
+            var i = colvals.pop();
+            console.log(i)
+            leaders = {};
+            getCorr(i, sortCorr);
+          });
+
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+      }
+
+      window.onload = main;
+
+      String.prototype.format = (function (i, safe, arg) {
+            function format() {
+                var str = this,
+                    len = arguments.length + 1;
+
+                for (i = 0; i < len; arg = arguments[i++]) {
+                    safe = typeof arg === 'object' ? JSON.stringify(arg) : arg;
+                    str = str.replace(RegExp('\\{' + (i - 1) + '\\}', 'g'), safe);
+                }
+                return str;
+            }
+
+            //format.native = String.prototype.format;
+            return format;
+        })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<html>
+<head>
+  <title>Internaut Explorer</title>
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+  <script src="cartocss.js"></script>
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+  <![endif]-->
+  <style>
+    html, body {width:100%; height:100%; padding: 0; margin: 0;}
+    #cartodb-map { width: 100%; height:100%; background: black;}
+  </style>
+
+  <script>
+
+    var map;
+    function init(){
+
+      map = new L.Map('cartodb-map', { 
+        center: [72.3649, 117.8560],
+        zoom: 10
+      });
+
+      cartodb.createLayer(map, {
+        user_name: 'sighrobot',
+        type: 'cartodb',
+        sublayers: [
+        {
+          sql: "SELECT * FROM parser_new_1",
+          cartocss: pageMarkerStyles
+        },
+        {
+          sql: "SELECT * FROM labels_new_1",
+          cartocss: labelStyles+heatmapStyles,
+        }
+        ]
+      })
+      .addTo(map)
+      .done(function(layer) {
+        cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['title', 'description','url','category','level']);
+      });
+
+      
+
+      
+
+    
+
+    }
+  </script>
+</head>
+<body onload="init()">
+  <div id='cartodb-map'></div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <title>Internaut Explorer</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Internaut Explorer lets you wander the wilderness of the Web.">
+  <meta name="keywords" content="web,internaut, explorer, interactive,abe,rubenstein,itp,visual,browser,map,cartodb,galaxy, internet,thesis,serendipity">
+  <meta name="author" content="Abe Rubenstein">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@sighrobot" />
+  <meta property="og:title"
+  content="Internaut Explorer" />
+  <meta property="og:description" content="Internaut Explorer lets you wander the wilderness of the Web." />
+  <meta property="image"
+  content="http://expl.re/ie-img.png" />
+  <meta property="og:image"
+  content="http://expl.re/ie-img.png" />
+  <meta property="og:url" content="http://expl.re/" />
+  <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  
+
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/custom.css"/>
+  <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://expl.re/">Internaut Explorer</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;About</a>
+            <ul class="dropdown-menu dropdown-about" role="menu">
+
+              <p>
+                Wander the wilderness of the Web using this interactive map of <a href="http://www.dmoz.org/" target="_blank">DMOZ</a>, an open-content directory.</p>
+                <p>Explore by moving around and zooming in and out. If you're feeling stuck, start by choosing a topic from the menu on the left.
+                </p>
+              </ul>
+
+            </li>
+            <li class="dropdown">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Share</a>
+              <ul class="dropdown-menu dropdown-social" role="menu">
+
+                <div>
+
+                  <a href="#" class="fb-like" data-href="http://expl.re/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></a>
+                </div>
+
+                <div>
+                  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://expl.re/" data-text="Calling all internauts" data-hashtags="InternautExplorer">Tweet</a>
+                  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
+                <div>
+
+                  <a class="g-plusone" data-size="medium" data-href="http://expl.re/"></a>
+                </div>
+
+              </ul>
+            </li>
+
+          </ul>
+
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container-fluid" id="map"></div>
+
+
+    <div id="sql" class="layer_selector">
+      <h3>Topics</h3>
+      <ul id="category-menu">
+        <li data=" WHERE category ILIKE '%Top/Arts%'" data-type="sql">Arts
+        </li>
+        <li data=" WHERE category ILIKE '%Top/Business%'" data-type="sql">Business
+        </li>
+      <!--
+      <li data=" WHERE category ILIKE '%Top/Computers%'" data-type="sql">Computers
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Games%'" data-type="sql">Games
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Health%'" data-type="sql">Health
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Home%'" data-type="sql">Home
+      </li>
+      <li data=" WHERE category ILIKE '%Top/News%'" data-type="sql">News
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Recreation%'" data-type="sql">Recreation
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Reference%'" data-type="sql">Reference
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Regional%'" data-type="sql">Regional
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Science%'" data-type="sql">Science
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Shopping%'" data-type="sql">Shopping
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Society%'" data-type="sql">Society
+      </li>
+      <li data=" WHERE category ILIKE '%Top/Sports%'" data-type="sql">Sports
+      </li>-->
+      <li id="sql-reset" data="" data-type="sql">Clear filters
+      </li>
+      
+    </ul>
+  </div>
+  <div id="dmoz-table">
+    <table>
+      <tr align="center"><td>
+        <font face="sans-serif, Arial, Helvetica" size="2" color="#ffffff">
+          Help build the largest human-edited directory on the web.
+        </font>
+      </td></tr>
+      <tr bgcolor="#CCCCCC" align="center">
+        <td><font face="sans-serif, Arial, Helvetica" size="2">
+          <a href="http://www.dmoz.org/public/suggest?cat=$cat">Suggest a Site</a> - 
+          <a href="http://www.dmoz.org/about.html"><b>Open Directory Project</b></a> - 
+          <a href="http://www.dmoz.org/public/apply?cat=$cat">Become an Editor</a>
+        </font></td></tr>
+      </table>
+    </div>
+
+    
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+    window.onload = main;
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  </body>
+  </html>

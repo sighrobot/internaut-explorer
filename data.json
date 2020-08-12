@@ -1,0 +1,128 @@
+{
+  "nodes": [
+  
+    {
+      "id": "c0",
+      "label": "Youth and High School",
+      "x": 2,
+      "y": -1,
+      "size": 2,
+      "color":"#2d63ab"
+    },
+    {
+      "id": "c2",
+      "label": "College and University",
+      "x": 0,
+      "y": -1,
+      "size": 2,
+      "color":"#2d63ab"
+    },
+    {
+      "id": "c3",
+      "label": "Open",
+      "x": 1,
+      "y": -1,
+      "size": 2,
+      "color":"#2d63ab"
+    },
+    {
+      "id": "c4",
+      "label": "Professional",
+      "x": 3,
+      "y": -1,
+      "size": 2,
+      "color":"#2d63ab"
+    },
+
+    {
+      "id": "c1",
+      "label": "Teams",
+      "x": 2,
+      "y": -2,
+      "size": 3,
+      "color":"#333"
+    },
+    {
+      "id": "n0",
+      "label": "New Palestine High School Ultimate Club",
+      "x": 0,
+      "y": 0,
+      "size": 1
+    },
+    {
+      "id": "n1",
+      "label": "NMH Ultimate Frisbee",
+      "x": 1,
+      "y": 0,
+      "size": 1
+    },
+    {
+      "id": "n2",
+      "label": "PlayUltimate",
+      "x": 2,
+      "y": 0,
+      "size": 1
+    },
+    {
+      "id": "n3",
+      "label": "Regional Middle School",
+      "x": 3,
+      "y": 0,
+      "size": 1
+    },
+    {
+      "id": "n4",
+      "label": "ufo",
+      "x": 4,
+      "y": 0,
+      "size": 1
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "c0",
+      "target": "n0"
+    },
+    {
+      "id": "e5",
+      "source": "c1",
+      "target": "c0"
+    },
+    {
+      "id": "e6",
+      "source": "c2",
+      "target": "c1"
+    },
+    {
+      "id": "e7",
+      "source": "c3",
+      "target": "c1"
+    },
+    {
+      "id": "e8",
+      "source": "c4",
+      "target": "c1"
+    },
+    {
+      "id": "e1",
+      "source": "c0",
+      "target": "n1"
+    },
+    {
+      "id": "e2",
+      "source": "c0",
+      "target": "n2"
+    },
+    {
+      "id":"e3",
+      "source":"c0",
+      "target":"n3"
+    },
+    {
+      "id":"e4",
+      "source":"c0",
+      "target":"n4"
+    }
+  ]
+}

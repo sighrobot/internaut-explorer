@@ -1,0 +1,282 @@
+html, body, #map {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background:#111;
+}
+
+a:hover {
+  text-decoration:none;
+}
+
+/*
+#tooltip {
+  position:absolute;
+  background:rgba(17,17,17,0.9);
+  color:#eee;
+  bottom:0;
+  left:0;
+  padding:2px 3px 2px 3px;
+  font-family:'Play', sans-serif;
+
+}
+*/
+nav.navbar {
+  background:transparent;
+  z-index:1;
+  border:none;
+  font-family:"Play", sans-serif;
+}
+
+nav.navbar a.navbar-brand {
+  color:gold;
+  font-weight:bold;
+  background:rgba(17,17,17,0.9);
+}
+
+nav.navbar a.navbar-brand:hover {
+  color:#eee;
+  background:rgba(17,17,17,0.9);
+}
+
+ul.dropdown-menu {
+  width:280px;
+  color:#eee;
+  border:1px solid gold;
+  padding:10px 10px 0 10px;
+  z-index:1000;
+}
+
+ul.dropdown-menu.dropdown-about {
+  font-size:16px;
+  background:rgba(17,17,17,0.9);
+}
+
+ul.dropdown-menu.dropdown-social {
+  font-size:16px;
+  background:rgba(17,17,17,0.9);
+}
+
+@media screen and (max-width:767px) {
+  .navbar-right {
+    background:rgba(17,17,17,0.9);
+    border:none;
+  }
+
+  .navbar-collapse, .navbar-collapse-in {
+    border:none;
+  }
+}
+
+ul.dropdown-menu.dropdown-social div {
+  padding:5px 0 5px 5px;
+}
+ul.dropdown-menu.dropdown-social div:last-child {
+  padding:0 0 5px 5px;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover  {
+  background:rgba(17,17,17,0.9);
+  color:#eee;
+}
+
+.navbar-default .navbar-nav>li>a:focus {
+  color:gold;
+  background:rgba(17,17,17,0.9);
+}
+
+ul.nav.navbar-nav li a {
+  color:gold;
+  background:rgba(17,17,17,0.9);
+}
+
+ul.nav.navbar-nav li a:hover {
+  color:#eee;
+  background:rgba(17,17,17,0.9);
+}
+
+.leaflet-top {
+  top:60px;
+}
+.leaflet-left {
+  left:5px;
+}
+
+@media screen and (max-width:767px) {
+  .leaflet-control-zoom {
+    display:none;
+  }
+}
+
+.leaflet-top .leaflet-control-zoom a {
+  background:rgba(17,17,17,0.9);
+  color:#eee;
+  border:1px solid #eee;
+}
+
+.leaflet-top .leaflet-control-zoom a:hover {
+  background:rgba(239,239,239,0.5);
+}
+
+div.cartodb-header div.content div.title {
+  color:gold;
+  font-family:"Play", sans-serif;
+  font-size:30px;
+  padding:10px 0px 0px 10px;
+}
+
+div.cartodb-header {
+  width:280px;
+  overflow:hidden;
+  height:62px;
+  background:rgba(17,17,17,0.9);
+  
+}
+
+
+.leaflet-control-zoom a.leaflet-control-zoom-in, .leaflet-control-zoom a.leaflet-control-zoom-out {
+  border:1px solid gold;
+}
+
+div.cartodb-popup.v2.dark {
+  width:300px !important;
+}
+
+.cartodb-infowindow a, div.cartodb-popup-content p {
+  font-family:"Play", sans-serif;
+}
+div.cartodb-popup-content p {
+  font-family:"Play", sans-serif;
+  font-size:14px;
+  line-height:14px;
+  margin-bottom:10px;
+  margin-top:10px;
+}
+
+div.cartodb-popup-content h2 {
+  color:#eee;
+  font-family:"Play", sans-serif;
+  line-height:16px;
+  margin-bottom:5px;
+  text-transform:none;
+}
+
+div.cartodb-popup.dark a {
+  color:gold;
+}
+
+div.cartodb-popup.dark a:hover {
+  color:#eee;
+  text-decoration:none;
+}
+
+a.infowindow-icon {
+  font-size:14px;
+  text-decoration:none;
+}
+
+
+div.cartodb-popup.dark a.cartodb-popup-close-button.close {
+  background:rgba(255,215,0,0.5);
+}
+
+.text.widget_text {
+  font-family:'Play', sans-serif;
+}
+
+.beta-text {
+  color:#eee;
+  font-size:9px;
+  font-weight:normal;
+}
+
+#sql {
+  position: absolute;
+  top: 200px;
+  right: 0px;
+  color:#eee;
+  font-family:"Play",sans-serif;
+  /*height:200px;
+  overflow:hidden;*/
+  display:none;
+}
+.layer_selector {
+  background: rgba(17, 17, 17,0.9);
+  border-radius: 5px;
+  padding: 0;
+  /*border: 1px solid #999;*/
+  width: 150px;
+
+}
+
+.layer_selector > h3 {
+  padding: 10px 10px 5px 10px;
+  margin:0;
+  color:#eee;
+  font-size:16px;
+  /*border-bottom: 1px solid #999;*/
+}
+
+.layer_selector ul {
+  padding: 0; margin: 0;
+  list-style-type: none;
+}
+.layer_selector li {
+  padding: 5px 5px 5px 10px;
+  font-size: 14px;
+  color: #eee;
+  cursor: pointer;
+}
+.layer_selector li:not(:last-child) {
+  /*border-bottom: 1px solid #999;*/
+}
+.layer_selector li:hover {
+  background-color: #1F1F1F;
+  cursor: pointer;
+}
+.layer_selector li.sql_selected,
+.layer_selector li.cartocss_selected {
+  background-color: #555;
+}
+
+.layer_selector li#sql-reset {
+  background:#ce3331;
+}
+
+div#dmoz-table {
+  display:none;
+}
+
+.leaflet-container .leaflet-control-attribution {
+  background: rgba(17, 17, 17,0.9);
+  color:#eee;
+  font-family:"Play", sans-serif;
+  line-height:12px;
+}
+.leaflet-container .leaflet-control-attribution a {
+  color:gold;
+}
+
+.leaflet-container .leaflet-control-attribution a:hover {
+  color:#eee;
+  text-decoration:none;
+}
+
+.navbar-text p {
+  color:#eee;
+}
+
+iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-count-horizontal {
+  display: inline !important;
+  position: static !important;
+  visibility: visible !important;
+  width:81px !important;
+  height:20px !important;
+}
+
+.btn-o {
+  display: inline !important;
+  position: static !important;
+  visibility: visible !important;
+  width:56px !important;
+}

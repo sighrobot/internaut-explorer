@@ -1,0 +1,226 @@
+
+[
+  {
+    "name": "Arts",
+    "children": [
+      {"name": "Aesthetics"},
+      {"name": "Animation"},
+      {"name": "Antiques"},
+      {"name": "Architecture"},
+      {"name": "Art History"},
+      {"name": "Bodyart"},
+      {"name": "Classical Studies"},
+      {"name": "Comics"},
+      {"name": "Costumes"},
+      {"name": "Crafts"},
+      {"name": "Dance"},
+      {"name": "Design"},
+      {"name": "Digital"},
+      {"name": "Entertainment"},
+      {"name": "Graphic Design"},
+      {"name": "Humanities"},
+      {"name": "Illustration"},
+      {"name": "Literature"},
+      {"name": "Movies"},
+      {"name": "Music"},
+      {"name": "Myths and Folktales"},
+      {"name": "Native and Tribal"},
+      {"name": "Online Writing"},
+      {"name": "Performing Arts"},
+      {"name": "Photography"},
+      {"name": "Radio"},
+      {"name": "Rhetoric"},
+      {"name": "Television"},
+      {"name": "Theatre"},
+      {"name": "Typography"},
+      {"name": "Video"},
+      {"name": "Visual Arts"},
+      {"name": "Writers Resources"}
+    ]
+  },
+  {
+    "name": "Business",
+    "children": [
+      {"name": "Accounting"},
+      {"name": "Business and Society"},
+      {"name": "Cooperatives"},
+      {"name": "Customer Service"},
+      {"name": "E-Commerce"},
+      {"name": "Education and Training"},
+      {"name": "Employment"},
+      {"name": "Human Resources"},
+      {"name": "Information Sciences"},
+      {"name": "International Business and Trade"},
+      {"name": "Investing"},
+      {"name": "Major Companies"},
+      {"name": "Management"},
+      {"name": "Marketing and Advertising"},
+      {"name": "Opportunities"},
+      {"name": "Small Business"}
+    ]
+  },
+  {
+    "name": "Computers",
+    "children": [
+      {"name":"Algorithms"},
+      {"name":"Artificial Intelligence"},
+      {"name":"Artificial Life"},
+      {"name": "Bulletin Board Systems"},
+      {"name": "CAD and CAM"},
+      {"name": "Computer and Technology Law"},
+      {"name": "Data Communications"},
+      {"name": "Data Formats"},
+      {"name": "Desktop Publishing"},
+      {"name": "E-Books"},
+      {"name": "Emulators"},
+      {"name": "Fonts"},
+      {"name": "Games"},
+      {"name": "Graphics"},
+      {"name": "Hacking"},
+      {"name": "Home Automation"},
+      {"name": "Human-Computer Interaction"},
+      {"name": "Intranet"},
+      {"name": "MIS"},
+      {"name": "Mobile Computing"},
+      {"name": "Multimedia"},
+      {"name": "Newsgroups"},
+      {"name": "Open Source"},
+      {"name": "Operating Systems"},
+      {"name": "Parallel Computing"},
+      {"name": "Performance and Capacity"},
+      {"name": "Programming"},
+      {"name": "Robotics"},
+      {"name": "Speech Technology"},
+      {"name": "Supercomputing"},
+      {"name": "Usenet"},
+      {"name": "Virtual Reality"}
+    ]
+  },
+  {
+    "name": "Games",
+    "children": [
+      { "name":"Board Games"},
+      {"name":"Card Games"},
+      {"name":"CCGs"},
+      {"name": "Coin-Op"},
+      {"name": "Dice"},
+      {"name": "Gambling"},
+      {"name": "Hand Games"},
+      {"name": "Hand-Eye Coordination"},
+      {"name": "Miniatures"},
+      {"name": "Online"},
+      {"name": "Paper and Pencil"},
+      {"name": "Party Games"},
+      {"name": "Play-By-Mail"},
+      {"name": "Puzzles"},
+      {"name": "Roleplaying"},
+      {"name": "Tile Games"},
+      {"name": "Trading Card Games"},
+      {"name": "Video Games"},
+      {"name": "Yard, Deck, and Table Games"}
+    ]
+  },
+  {
+    "name": "Health",
+    "children": [
+      { "name":"Fitness"},
+      {"name":"Medicine"},
+      {"name":"Alternative"}
+    ]
+  }
+  ,
+  {
+    "name": "Home",
+    "children": [
+      { "name":"Apartment Living"},
+      {"name":"Consumer Information"},
+      {"name":"Cooking"},
+      {"name": "Do-It-Yourself"},
+      {"name": "Domestic Services"},
+      {"name": "Emergency Preparation"},
+      {"name": "Entertaining"},
+      {"name": "Family"},
+      {"name": "Gardening"},
+      {"name": "Home Automation"},
+      {"name": "Home Business"},
+      {"name": "Home Buyers"},
+      {"name": "Home Improvement"},
+      {"name": "Homemaking"},
+      {"name": "Homeowners"},
+      {"name": "Moving and Relocating"},
+      {"name": "Personal Finance"},
+      {"name": "Personal Organization"},
+      {"name": "Pets"},
+      {"name": "Rural Living"},
+      {"name": "Seniors"},
+      {"name": "Shopping"},
+      {"name": "Urban Living"}
+    ]
+  }
+  ,
+  {
+    "name": "Kids and Teens",
+    "children": [
+      { "name":"Arts"},
+      {"name":"School Time"},
+      {"name":"Teen Life"}
+    ]
+  },
+  {
+    "name": "News",
+    "children": [
+      { "name":"Media"},
+      {"name":"Newspapers"},
+      {"name":"Weather"}
+    ]
+  },
+  {
+    "name": "Recreation",
+    "children": [
+      { "name":"Travel"},
+      {"name":"Food"},
+      {"name":"Outdoors"},
+      {"name":"Humor"}
+    ]
+  },
+  {
+    "name": "Reference",
+    "children": [
+      { "name":"Maps"},
+      {"name":"Education"},
+      {"name":"Libraries"}
+    ]
+  },
+  {
+    "name": "Science",
+    "children": [
+      { "name":"Biology"},
+      {"name":"Psychology"},
+      {"name":"Physics"}
+    ]
+  },
+  {
+    "name": "Shopping",
+    "children": [
+      { "name":"Clothing"},
+      {"name":"Food"},
+      {"name":"Gifts"}
+    ]
+  },
+  {
+    "name": "Society",
+    "children": [
+      { "name":"People"},
+      {"name":"Religion"},
+      {"name":"Issues"}
+    ]
+  },
+  {
+    "name": "Sports",
+    "children": [
+      { "name":"Baseball"},
+      {"name":"Soccer"},
+      {"name":"Basketball"}
+    ]
+  }
+]
